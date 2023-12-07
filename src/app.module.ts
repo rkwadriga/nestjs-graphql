@@ -7,6 +7,8 @@ import { join } from 'path';
 import { ApolloDriver } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Pet } from './pets/pet.entity';
+import { OwnersModule } from './owners/owners.module';
+import { Owner } from './owners/owner.entity';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { Pet } from './pets/pet.entity';
       username: 'admin',
       password: 'admin',
       database: 'pet_db',
-      entities: [Pet],
+      entities: [Pet, Owner],
       synchronize: true,
     }),
     GraphQLModule.forRoot({
@@ -26,6 +28,7 @@ import { Pet } from './pets/pet.entity';
       driver: ApolloDriver,
     }),
     PetsModule,
+    OwnersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
