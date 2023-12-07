@@ -5,9 +5,22 @@ import { PetsModule } from './pets/pets.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ApolloDriver } from '@nestjs/apollo';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Pet } from './pets/pet.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      //host: '172.17.0.1',
+      host: 'localhost',
+      port: 5438,
+      username: 'admin',
+      password: 'admin',
+      database: 'pet_db',
+      entities: [Pet],
+      synchronize: true,
+    }),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       driver: ApolloDriver,
